@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Third Person Game/Camera", 100)]
 public class TPS_Camera : MonoBehaviour
 {
     public float RotationSpeed = 1.0f;
@@ -16,6 +17,12 @@ public class TPS_Camera : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (Target != null)
+        {
+            mouseX = Target.eulerAngles.y;
+            mouseY = Target.eulerAngles.x;
+        }
     }
 
     float mouseX = 0.0f;

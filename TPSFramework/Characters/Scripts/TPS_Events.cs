@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Third Person Game/Events Hub", 100)]
 public class TPS_Events : MonoBehaviour
 {
     public static TPS_Events Current;
