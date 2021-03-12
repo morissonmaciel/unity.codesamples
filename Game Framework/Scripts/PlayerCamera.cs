@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[AddComponentMenu("Game Framework/Camera/PlayerCameraController")]
+[AddComponentMenu("Game Framework/Camera/Player Camera Controller")]
 public class PlayerCamera : MonoBehaviour
 {
     public enum CameraBehaviour
@@ -15,10 +15,13 @@ public class PlayerCamera : MonoBehaviour
     public Transform CameraRig;
     public Transform CameraTarget;
     public CameraBehaviour Behaviour;
-    public float CameraSpeed = 0.75f;
+    public float CameraSpeed = 0.35f;
+    public bool SupressNormalBehaviour = false;
+    public float MinUpAngle = -35f;
+    public float MaxUpAngle = 60f;
 
-    Vector3 offset;
     Vector2 lookAt;
+    Vector3 offset;
     float yAngle;
     float xAngle;
 
@@ -39,10 +42,13 @@ public class PlayerCamera : MonoBehaviour
         yAngle += lookAt.x * CameraSpeed;
         xAngle -= lookAt.y * CameraSpeed;
 
-        xAngle = Mathf.Clamp(xAngle, -35f, 60f);
+        xAngle = Mathf.Clamp(xAngle, MinUpAngle, MaxUpAngle);
 
-        if (Behaviour == CameraBehaviour.ThirdPerson)
-            CameraRig.transform.rotation = Quaternion.Euler(xAngle, yAngle, 0);
+        if (!SupressNormalBehaviour)
+        {
+            if (Behaviour == CameraBehaviour.ThirdPerson)
+                CameraRig.transform.rotation = Quaternion.Euler(xAngle, yAngle, 0);
+        }
 
         CameraRig.position = CameraTarget.position - offset;
     }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1399563002739622679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7450970882827198407}
+  m_Layer: 0
+  m_Name: Aiming Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7450970882827198407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399563002739622679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.314, y: -0.089, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3047965085385718845}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3047965084696871102
 GameObject:
   m_ObjectHideFlags: 0
@@ -25,8 +55,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3047965084696871102}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.75}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3047965085385718845}
@@ -94,6 +124,7 @@ GameObject:
   - component: {fileID: 3047965085385718845}
   - component: {fileID: 3047965085385718843}
   - component: {fileID: 3047965085385718844}
+  - component: {fileID: 1853018090702730818}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -113,6 +144,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3047965084696871099}
+  - {fileID: 7450970882827198407}
+  - {fileID: 2580686589090612169}
   m_Father: {fileID: 3047965086382697307}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -167,8 +200,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1853018090702730818}
+        m_TargetAssemblyTypeName: CameraAimingBehaviour, Assembly-CSharp
+        m_MethodName: OnCameraMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 28a03c05-6bae-4b17-9604-d0c837641ea3
     m_ActionName: Camera/Movement[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1853018090702730818}
+        m_TargetAssemblyTypeName: CameraAimingBehaviour, Assembly-CSharp
+        m_MethodName: OnAiming
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 06a96a52-e658-4ae4-8657-bbd80811f997
+    m_ActionName: Camera/Aiming[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Camera
@@ -189,7 +250,29 @@ MonoBehaviour:
   CameraRig: {fileID: 3047965085385718845}
   CameraTarget: {fileID: 3047965085674310012}
   Behaviour: 1
-  CameraSpeed: 0.75
+  CameraSpeed: 0.35
+  SupressNormalBehaviour: 0
+  MinUpAngle: -35
+  MaxUpAngle: 60
+--- !u!114 &1853018090702730818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047965085385718846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8d7cf3065515a4b8063db545103165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MovementController: {fileID: 3047965086382697306}
+  CameraController: {fileID: 3047965085385718844}
+  playerCamera: {fileID: 3047965084696871100}
+  NormalHint: {fileID: 2580686589090612169}
+  AimingHint: {fileID: 7450970882827198407}
+  BodyRotationSpeed: 0.75
+  AimingAngleModifier: 3.5
 --- !u!1 &3047965085674310013
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +317,7 @@ GameObject:
   - component: {fileID: 3047965086382697306}
   - component: {fileID: 3047965086382697303}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,6 +435,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 28a03c05-6bae-4b17-9604-d0c837641ea3
     m_ActionName: Camera/Movement[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 06a96a52-e658-4ae4-8657-bbd80811f997
+    m_ActionName: Camera/Aiming[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -388,6 +475,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementController: {fileID: 3047965086382697306}
+  MovementParameter: Movement
+--- !u!1 &6974639812889030680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2580686589090612169}
+  m_Layer: 0
+  m_Name: Normal Position
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2580686589090612169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6974639812889030680}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3047965085385718845}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3047965085072404289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -447,10 +565,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: f2271299d96dc834bb4fd0bd02e92b59, type: 2}
-    - target: {fileID: 5866666021909216657, guid: 6f613b6836bc3d14c86d16b5dda6eafb, type: 3}
-      propertyPath: m_UpdateMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 6f613b6836bc3d14c86d16b5dda6eafb, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

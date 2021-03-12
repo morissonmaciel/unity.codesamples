@@ -33,7 +33,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        magnitude = Mathf.SmoothDamp(magnitude, playerInput.magnitude + (isRunning ? 1.0f : 0.0f), ref dampMagnitude, 0.1f);
+        magnitude = Mathf.SmoothDamp(magnitude, playerInput.magnitude * (isRunning ? 2.0f : 1.0f), ref dampMagnitude, 0.1f);
         magnitude = Mathf.Clamp(magnitude, 0f, 2f);
 
         animator.SetFloat(MovementParameter, magnitude);

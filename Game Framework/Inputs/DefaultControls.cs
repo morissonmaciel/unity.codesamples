@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Inputs/DefaultControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Game Framework/Inputs/DefaultControls.inputactions'
 
 using System;
 using System.Collections;
@@ -101,9 +101,31 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d882c31f-1756-4ff0-897d-6e6bca15f224"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b15fdb92-56e1-4489-8e85-c701580a2e9d"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ebccdf3-9fb8-4390-a799-2f4baa547a47"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
@@ -134,6 +156,14 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Aiming"",
+                    ""type"": ""Button"",
+                    ""id"": ""06a96a52-e658-4ae4-8657-bbd80811f997"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -145,6 +175,39 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85096fee-06bf-426a-afd9-c701606484ab"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9af9e124-5106-451d-b9f0-be8e43267716"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""916d5980-95c6-4c38-bc82-9e435f6bb4f6"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aiming"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -161,6 +224,7 @@ public class @DefaultControls : IInputActionCollection, IDisposable
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Movement = m_Camera.FindAction("Movement", throwIfNotFound: true);
+        m_Camera_Aiming = m_Camera.FindAction("Aiming", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,11 +324,13 @@ public class @DefaultControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Camera;
     private ICameraActions m_CameraActionsCallbackInterface;
     private readonly InputAction m_Camera_Movement;
+    private readonly InputAction m_Camera_Aiming;
     public struct CameraActions
     {
         private @DefaultControls m_Wrapper;
         public CameraActions(@DefaultControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Camera_Movement;
+        public InputAction @Aiming => m_Wrapper.m_Camera_Aiming;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -277,6 +343,9 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
+                @Aiming.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnAiming;
+                @Aiming.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnAiming;
+                @Aiming.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnAiming;
             }
             m_Wrapper.m_CameraActionsCallbackInterface = instance;
             if (instance != null)
@@ -284,6 +353,9 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Aiming.started += instance.OnAiming;
+                @Aiming.performed += instance.OnAiming;
+                @Aiming.canceled += instance.OnAiming;
             }
         }
     }
@@ -297,5 +369,6 @@ public class @DefaultControls : IInputActionCollection, IDisposable
     public interface ICameraActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnAiming(InputAction.CallbackContext context);
     }
 }
