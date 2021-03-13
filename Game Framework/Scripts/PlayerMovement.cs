@@ -7,26 +7,40 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public delegate void PlayerMovementDelegate(Vector2 input, bool isRunning);
+    public delegate void PlayerJumpingDelegate(bool jumping);
 
     public CharacterController Controller;
     public PlayerCamera Camera;
     public float NormalSpeed = 1.75f;
-    public float RunSpeed = 3.75f;
+    public float JogSpeed = 2.25f;
+    public float RunSpeed = 4.5f;
     public float JumpHeight = 1.5f;
     public float Gravity = 9.8f;
 
     public event PlayerMovementDelegate OnPlayerMovement;
+    public event PlayerJumpingDelegate OnPlayerJumping;
 
     Vector2 input;
     Vector3 movement;
     bool running;
     bool jumping;
+    bool grounded = true;
     float dampRotation;
 
     void FixedUpdate()
     {
         ComputeRotation();
         ComputeMovement();
+
+        RaycastHit hit;
+        var hitted = Physics.Raycast(
+            Controller.transform.position, Vector3.down, out hit, grounded ? Controller.stepOffset : JumpHeight * Controller.stepOffset);
+        var isGrounded = hitted && hit.distance <= 0.1f;
+
+        grounded = isGrounded;
+
+        if (OnPlayerJumping != null)
+            OnPlayerJumping(!(hitted && hit.distance <= 0.35f));
     }
 
     void ComputeMovement()
@@ -39,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         if (Controller.isGrounded)
         {
             movement = new Vector3(input.x, 0, input.y);
-            movement *= running ? RunSpeed : NormalSpeed;
+            movement *= running ? RunSpeed : input.magnitude > 0.5f ? JogSpeed : NormalSpeed;
 
             if (jumping)
                 movement.y += Mathf.Sqrt(2.0f * JumpHeight * Gravity);
@@ -85,5 +99,8 @@ public class PlayerMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext ctx)
     {
         jumping = ctx.ReadValueAsButton();
+
+        if (OnPlayerJumping != null)
+            OnPlayerJumping(true);
     }
 }

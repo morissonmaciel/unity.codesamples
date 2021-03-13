@@ -15,6 +15,7 @@ public class CameraAimingBehaviour : MonoBehaviour
     public float AimingAngleModifier = 3.5f;
 
     bool IsAiming;
+    float dampVelocity;
 
     void LateUpdate()
     {
@@ -38,7 +39,9 @@ public class CameraAimingBehaviour : MonoBehaviour
     {
         if (IsAiming)
         {
-            var angle = CameraController.CameraRig.eulerAngles.y;
+            var targetAngle = CameraController.CameraRig.eulerAngles.y;
+            var angle = Mathf.SmoothDampAngle(MovementController.Controller.transform.eulerAngles.y, targetAngle, ref dampVelocity, 0.1f);
+
             MovementController.Controller.transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
         }
     }
